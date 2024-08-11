@@ -7,6 +7,7 @@ import useArticle from '@/hooks/useArticle';
 import { parseMarkdownHeadings } from '@/components/articles/utils';
 import Nav from '@/components/nav';
 import Switch from '@/components/switch';
+import { ArticleSkeleton } from '@/components/skeleton';
 
 
 const getAnchor = (hash: string) => {
@@ -18,6 +19,14 @@ const getAnchor = (hash: string) => {
 const ArticleWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const content = useArticle(`./docs/${ id }.md`!);
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (content) {
+      setFetching(false);
+    }
+  }, [content]);
+
 
   useEffect(() => {
     if (window.location.hash) {
@@ -39,7 +48,7 @@ const ArticleWrapper: React.FC = () => {
   const [activeId, setActiveId] = useState('');
   const toc = useMemo(() => parseMarkdownHeadings(content), [content]);
 
-  return <Layout content={ <Article content={ content } /> }
+  return <Layout content={ fetching ? <ArticleSkeleton /> : <Article content={ content } /> }
     aside={
       <>
         <Switch />

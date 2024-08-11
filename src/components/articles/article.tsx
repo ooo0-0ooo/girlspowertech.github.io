@@ -45,7 +45,7 @@ export const TableOfContent: FC<TableOfContentsProps> = ({ toc, activeId }) => {
 };
 
 
-const Heading: FC<PropsWithChildren<{ level: number }>> = ({ level, activeId, children }) => {
+const Heading: FC<PropsWithChildren<{ level: number }>> = ({ level, children }) => {
   const HeadingTag = `h${ level }` as keyof JSX.IntrinsicElements;
   const { pathname } = useLocation();
 
